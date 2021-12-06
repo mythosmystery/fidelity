@@ -1,11 +1,10 @@
 import { Customer } from '.prisma/client';
-import { MetaFunction, LoaderFunction, Outlet } from 'remix';
-import { useLoaderData, json, Link } from 'remix';
+import { LoaderFunction, Outlet } from 'remix';
+import { useLoaderData, Link } from 'remix';
 import { db } from '../utils/db.server';
 
 export let loader: LoaderFunction = async (): Promise<Customer[]> => {
-   const data = await db.customer.findMany();
-   return data;
+   return await db.customer.findMany();
 };
 
 // https://remix.run/guides/routing#index-routes

@@ -1,30 +1,26 @@
-import { Customer } from '.prisma/client';
-import { MetaFunction, LoaderFunction, Outlet } from 'remix';
-import { useLoaderData, json, Link } from 'remix';
-import { db } from '../utils/db.server';
+import { LoaderFunction } from 'remix';
+import { useLoaderData } from 'remix';
+import { GetCustomers, GetCustomersQuery } from '../gen/graphql';
+import { client } from '../utils/gqlClient.server';
 
-export let loader: LoaderFunction = async (): Promise<{ name: string; id: string }[]> => {
-   const data = await db.customer.findMany({ select: { name: true, id: true } });
-   return data;
-};
-
-// https://remix.run/api/conventions#meta
-export let meta: MetaFunction = () => {
-   return {
-      title: 'Remix Starter',
-      description: 'Welcome to remix!'
-   };
+export const loader: LoaderFunction = async (): Promise<any> => {
+   return await client.request<GetCustomersQuery>(GetCustomers);
 };
 
 // https://remix.run/guides/routing#index-routes
 export default function Index() {
-   let data = useLoaderData<Customer[]>();
+   const { customers } = useLoaderData<GetCustomersQuery>();
 
    return (
       <main>
          <h1 className='text-green-600 text-6xl'> Index page</h1>
-         {data.map(cust => {
-            return <p key={cust.id}>hello {cust.name}</p>;
+         {customers.data?.map(cust => {
+            return (
+               <div key={cust?._id}>
+                  <p>{cust?.name}</p>
+                  <p>{cust?.phoneNumber}</p>
+               </div>
+            );
          })}
       </main>
    );

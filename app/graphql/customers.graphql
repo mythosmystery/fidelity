@@ -1,0 +1,16 @@
+query getCustomers {
+   customers {
+      data {
+         _id
+         name
+         phoneNumber
+      }
+   }
+}
+query customerByID($id: ID!) {
+   findCustomerByID(id: $id) {
+      _id
+      name
+      phoneNumber
+   }
+}
