@@ -1,3 +1,5 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import { renderToString } from 'react-dom/server';
 import { HandleDataRequestFunction, RemixServer } from 'remix';
 import type { EntryContext } from 'remix';
@@ -18,9 +20,6 @@ export default function handleRequest(
    });
 }
 
-export const handleDataRequest: HandleDataRequestFunction = async (
-   response: Response,
-   { context, params, request }
-) => {
+export const handleDataRequest: HandleDataRequestFunction = async (response: Response) => {
    return response;
 };
