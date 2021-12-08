@@ -2,6 +2,8 @@ query getCustomers {
    customers {
       data {
          _id
+         _ts
+         email
          name
          phoneNumber
       }
@@ -10,6 +12,18 @@ query getCustomers {
 query customerByID($id: ID!) {
    findCustomerByID(id: $id) {
       _id
+      _ts
+      email
+      name
+      phoneNumber
+   }
+}
+
+mutation addCustomer($data: CustomerInput!) {
+   createCustomer(data: $data) {
+      _id
+      _ts
+      email
       name
       phoneNumber
    }

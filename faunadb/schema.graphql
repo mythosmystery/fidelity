@@ -1,6 +1,7 @@
 type Customer {
    name: String!
    phoneNumber: String!
+   email: String! @unique(index: "unique_email")
 }
 
 type Query {
