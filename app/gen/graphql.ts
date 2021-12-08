@@ -1,11 +1,11 @@
-import { gql } from '@apollo/client';
-import * as Apollo from '@apollo/client';
+import { GraphQLClient } from 'graphql-request';
+import * as Dom from 'graphql-request/dist/types.dom';
+import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -125,33 +125,6 @@ export const GetCustomersDocument = gql`
   }
 }
     `;
-
-/**
- * __useGetCustomersQuery__
- *
- * To run a query within a React component, call `useGetCustomersQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetCustomersQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetCustomersQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetCustomersQuery(baseOptions?: Apollo.QueryHookOptions<GetCustomersQuery, GetCustomersQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetCustomersQuery, GetCustomersQueryVariables>(GetCustomersDocument, options);
-      }
-export function useGetCustomersLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCustomersQuery, GetCustomersQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetCustomersQuery, GetCustomersQueryVariables>(GetCustomersDocument, options);
-        }
-export type GetCustomersQueryHookResult = ReturnType<typeof useGetCustomersQuery>;
-export type GetCustomersLazyQueryHookResult = ReturnType<typeof useGetCustomersLazyQuery>;
-export type GetCustomersQueryResult = Apollo.QueryResult<GetCustomersQuery, GetCustomersQueryVariables>;
 export const CustomerByIdDocument = gql`
     query customerByID($id: ID!) {
   findCustomerByID(id: $id) {
@@ -163,34 +136,6 @@ export const CustomerByIdDocument = gql`
   }
 }
     `;
-
-/**
- * __useCustomerByIdQuery__
- *
- * To run a query within a React component, call `useCustomerByIdQuery` and pass it any options that fit your needs.
- * When your component renders, `useCustomerByIdQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useCustomerByIdQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useCustomerByIdQuery(baseOptions: Apollo.QueryHookOptions<CustomerByIdQuery, CustomerByIdQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<CustomerByIdQuery, CustomerByIdQueryVariables>(CustomerByIdDocument, options);
-      }
-export function useCustomerByIdLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CustomerByIdQuery, CustomerByIdQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<CustomerByIdQuery, CustomerByIdQueryVariables>(CustomerByIdDocument, options);
-        }
-export type CustomerByIdQueryHookResult = ReturnType<typeof useCustomerByIdQuery>;
-export type CustomerByIdLazyQueryHookResult = ReturnType<typeof useCustomerByIdLazyQuery>;
-export type CustomerByIdQueryResult = Apollo.QueryResult<CustomerByIdQuery, CustomerByIdQueryVariables>;
 export const AddCustomerDocument = gql`
     mutation addCustomer($data: CustomerInput!) {
   createCustomer(data: $data) {
@@ -202,29 +147,23 @@ export const AddCustomerDocument = gql`
   }
 }
     `;
-export type AddCustomerMutationFn = Apollo.MutationFunction<AddCustomerMutation, AddCustomerMutationVariables>;
 
-/**
- * __useAddCustomerMutation__
- *
- * To run a mutation, you first call `useAddCustomerMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useAddCustomerMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [addCustomerMutation, { data, loading, error }] = useAddCustomerMutation({
- *   variables: {
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useAddCustomerMutation(baseOptions?: Apollo.MutationHookOptions<AddCustomerMutation, AddCustomerMutationVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useMutation<AddCustomerMutation, AddCustomerMutationVariables>(AddCustomerDocument, options);
-      }
-export type AddCustomerMutationHookResult = ReturnType<typeof useAddCustomerMutation>;
-export type AddCustomerMutationResult = Apollo.MutationResult<AddCustomerMutation>;
-export type AddCustomerMutationOptions = Apollo.BaseMutationOptions<AddCustomerMutation, AddCustomerMutationVariables>;
+export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string) => Promise<T>;
+
+
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action();
+
+export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
+  return {
+    getCustomers(variables?: GetCustomersQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetCustomersQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetCustomersQuery>(GetCustomersDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getCustomers');
+    },
+    customerByID(variables: CustomerByIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<CustomerByIdQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<CustomerByIdQuery>(CustomerByIdDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'customerByID');
+    },
+    addCustomer(variables: AddCustomerMutationVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<AddCustomerMutation> {
+      return withWrapper((wrappedRequestHeaders) => client.request<AddCustomerMutation>(AddCustomerDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'addCustomer');
+    }
+  };
+}
+export type Sdk = ReturnType<typeof getSdk>;

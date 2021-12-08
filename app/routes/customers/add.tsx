@@ -1,7 +1,6 @@
 import { ActionFunction } from '@remix-run/server-runtime';
 import { useActionData } from 'remix';
-import { AddCustomerDocument, AddCustomerMutation } from '../../gen/graphql';
-import { client } from '../../utils/apolloClient.server';
+import { sdk } from '../../utils/gqlClient.server';
 
 type ErrorsType = Array<{ message: string; extensions: any }> | null;
 
@@ -11,16 +10,7 @@ export const action: ActionFunction = async ({ request }): Promise<ErrorsType> =
    const phoneNumber = formData.get('phoneNumber') as string;
    const email = formData.get('email') as string;
    try {
-      await client.mutate<AddCustomerMutation>({
-         mutation: AddCustomerDocument,
-         variables: {
-            data: {
-               name,
-               phoneNumber,
-               email
-            }
-         }
-      });
+      await sdk.addCustomer({ data: { email, name, phoneNumber } });
    } catch (err: any) {
       return err;
    }
