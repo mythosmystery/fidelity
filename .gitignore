@@ -6,6 +6,7 @@ node_modules
 
 /prisma/dev.db
 .env
+firebase/
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
