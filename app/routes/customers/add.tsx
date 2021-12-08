@@ -1,6 +1,6 @@
 import { ActionFunction } from '@remix-run/server-runtime';
 import { useActionData } from 'remix';
-import { AddCustomerDocument, AddCustomerMutation, AddCustomerMutationOptions } from '../../gen/graphql';
+import { AddCustomerDocument, AddCustomerMutation } from '../../gen/graphql';
 import { client } from '../../utils/apolloClient.server';
 
 type ErrorsType = Array<{ message: string; extensions: any }> | null;
