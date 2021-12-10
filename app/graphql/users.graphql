@@ -1,0 +1,18 @@
+query getUser($id: ID!) {
+   findUserByID(id: $id) {
+      _id
+      email
+      name
+      sub
+      photoUrl
+   }
+}
+mutation createUser($data: UserInput!) {
+   createUser(data: $data) {
+      _id
+      email
+      name
+      photoUrl
+      sub
+   }
+}

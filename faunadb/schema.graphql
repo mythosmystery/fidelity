@@ -4,6 +4,13 @@ type Customer {
    email: String! @unique(index: "unique_email")
 }
 
+type User {
+   name: String!
+   email: String! @unique(index: "user_email")
+   photoUrl: String!
+   sub: String!
+}
+
 type Query {
    customers: [Customer!]!
 }

@@ -1,16 +1,20 @@
 import { ActionFunction } from '@remix-run/server-runtime';
 import { useActionData } from 'remix';
-import { sdk } from '../../utils/gqlClient.server';
+import { db } from '../../utils/db.server';
+import { requireUserId } from '../../utils/session.server';
 
 type ErrorsType = Array<{ message: string; extensions: any }> | null;
 
 export const action: ActionFunction = async ({ request }): Promise<ErrorsType> => {
    const formData = await request.formData();
+   const userId = await requireUserId(request);
+
    const name = formData.get('name') as string;
    const phoneNumber = formData.get('phoneNumber') as string;
    const email = formData.get('email') as string;
+
    try {
-      await sdk.addCustomer({ data: { email, name, phoneNumber } });
+      await db.customer.create({ data: { email, name, phoneNumber, userId } });
    } catch (err: any) {
       return err;
    }

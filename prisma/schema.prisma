@@ -14,4 +14,16 @@ model Customer {
   id          String @id @default(cuid())
   name        String
   phoneNumber String
+  email       String @unique
+  enteredBy   User   @relation(fields: [userId], references: [id])
+  userId      String
+}
+
+model User {
+  id        String     @id @default(cuid())
+  name      String
+  email     String     @unique
+  sub       String
+  picture   String
+  customers Customer[]
 }
