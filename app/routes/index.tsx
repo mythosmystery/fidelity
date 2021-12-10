@@ -2,6 +2,7 @@ import { User } from '.prisma/client';
 import { Link, LoaderFunction } from 'remix';
 import { useLoaderData } from 'remix';
 import { GLogout } from '../components/GLogout';
+import { UserCard } from '../components/UserCard';
 import { db } from '../utils/db.server';
 import { isSignedIn } from '../utils/session.server';
 
@@ -20,12 +21,7 @@ export default function Index() {
          <div className='flex flex-col'>
             {isSignedIn ? <GLogout /> : <Link to='/login'>Login</Link>}
             {users.map((user: User) => {
-               return (
-                  <div key={user.id}>
-                     <h1>{user.name}</h1>
-                     <Link to={`/profile/${user.id}`}>{user.email}</Link>
-                  </div>
-               );
+               return <UserCard user={user} key={user.id} />;
             })}
          </div>
       </main>

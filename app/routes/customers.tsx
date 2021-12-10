@@ -1,6 +1,7 @@
 import { Customer, User } from '.prisma/client';
 import { LoaderFunction, Outlet } from 'remix';
-import { useLoaderData, Link } from 'remix';
+import { useLoaderData } from 'remix';
+import { CustomerCard } from '../components/CustomerCard';
 import { db } from '../utils/db.server';
 
 export const loader: LoaderFunction = async ({}) => {
@@ -17,15 +18,7 @@ export default function Index() {
          <h1 className='text-green-600 text-6xl'> Customers page</h1>
          <div className='px-8 my-4'>
             {data.map(cust => {
-               return (
-                  <div key={cust.id}>
-                     <Link to={`/customers/${cust.id}`} className='hover:text-indigo-600 scale-110'>
-                        {cust.name} - {cust.email}
-                     </Link>
-                     <p>{cust.phoneNumber}</p>
-                     <Link to={`/users/${cust.userId}`}>{cust.enteredBy.name}</Link>
-                  </div>
-               );
+               return <CustomerCard customer={cust} userName={cust.enteredBy.name} key={cust.id} />;
             })}
          </div>
          <Outlet />

@@ -41,7 +41,7 @@ export const getCurrentUser = async (request: Request) => {
    if (!userId) {
       return redirect('/login');
    }
-   const user = await db.user.findUnique({ where: { id: userId } });
+   const user = await db.user.findUnique({ where: { id: userId }, include: { customers: true } });
    return user;
 };
 

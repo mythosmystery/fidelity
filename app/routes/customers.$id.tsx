@@ -1,6 +1,7 @@
 import { Customer, User } from '.prisma/client';
 import { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData } from 'remix';
+import { CustomerCard } from '../components/CustomerCard';
 import { db } from '../utils/db.server';
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -9,12 +10,5 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export default function CustomerPage() {
    const data = useLoaderData<Customer & { enteredBy: User }>();
-   return (
-      <div>
-         <h1>{data.name}</h1>
-         <p>{data.phoneNumber}</p>
-         <p>{data.email}</p>
-         <p>{data.enteredBy.name}</p>
-      </div>
-   );
+   return <CustomerCard customer={data} userName={data.enteredBy.name} />;
 }
