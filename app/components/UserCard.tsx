@@ -11,8 +11,7 @@ export const UserCard: React.FC<UserCardProps> = ({ user }) => {
       <div>
          <img className='rounded-full w-16 h-16' src={user.picture} />
          <h1>{user.name}</h1>
-         <p>{user.email}</p>
-         <Link to={`/profile/${user.id}`}>{user.email}</Link>
+         <Link to={`/users/${user.id}`}>{user.email}</Link>
       </div>
    );
 };

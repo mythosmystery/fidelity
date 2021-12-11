@@ -2,6 +2,7 @@ import React from 'react';
 import GoogleLogin from 'react-google-login';
 import { useNavigate } from 'react-router';
 import { web } from '../../google/client_secret_875138566928-r1d085gmj7cvfvlhv55vetse0mrpfis1.apps.googleusercontent.com.json';
+import { useAuth } from './auth';
 
 interface GLoginProps {
    redirectTo?: string;
@@ -9,10 +10,12 @@ interface GLoginProps {
 
 export const GLogin: React.FC<GLoginProps> = ({ redirectTo = '/' }) => {
    const navigate = useNavigate();
+   const { setSignedIn } = useAuth();
 
    const handleSuccess = async (response: any) => {
       console.log('handle success triggered');
       await fetch('/g/login', { method: 'POST', body: JSON.stringify(response) });
+      setSignedIn(true);
       navigate(redirectTo);
    };
    const handleFail = () => {

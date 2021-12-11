@@ -1,22 +1,33 @@
-import { Link, Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useCatch } from 'remix';
+import { LoaderFunction, Outlet, useCatch, useLoaderData } from 'remix';
 import type { LinksFunction } from 'remix';
 
 import tailwind from './tailwind.css';
 import { Layout } from './components/core/layout';
 import { Document } from './components/core/doc';
+import { isSignedIn } from './utils/session.server';
+import { AuthProvider } from './components/auth';
+import { Header } from './components/Header/Header';
 
 // https://remix.run/api/app#links
 export let links: LinksFunction = () => {
    return [{ rel: 'stylesheet', href: tailwind }];
 };
 
+export const loader: LoaderFunction = async ({ request }) => {
+   return await isSignedIn(request);
+};
+
 // https://remix.run/api/conventions#default-export
 // https://remix.run/api/conventions#route-filenames
 export default function App() {
+   const isSignedIn = useLoaderData<boolean>();
    return (
       <Document>
          <Layout>
-            <Outlet />
+            <AuthProvider initialState={isSignedIn}>
+               <Header />
+               <Outlet />
+            </AuthProvider>
          </Layout>
       </Document>
    );
