@@ -6,12 +6,12 @@ import { db } from '../utils/db.server';
 
 export const loader: LoaderFunction = async ({}) => {
    const users = await db.user.findMany();
-   return { users };
+   return users;
 };
 
 // https://remix.run/guides/routing#index-routes
 export default function Index() {
-   const { users } = useLoaderData<{ users: User[]; isSignedIn: boolean }>();
+   const users = useLoaderData<User[]>();
 
    return (
       <main>
