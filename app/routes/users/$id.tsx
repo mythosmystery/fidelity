@@ -1,8 +1,8 @@
 import { Customer, User } from '.prisma/client';
 import { LoaderFunction } from '@remix-run/server-runtime';
 import { useLoaderData } from 'remix';
-import { CustomerCard } from '../../components/CustomerCard';
-import { UserCard } from '../../components/UserCard';
+import { CustomerCard } from '../../components/cards/CustomerCard';
+import { UserCard } from '../../components/cards/UserCard';
 import { db } from '../../utils/db.server';
 
 export const loader: LoaderFunction = async ({ params }) => {

@@ -26,7 +26,7 @@ export default function Add() {
    console.log(error);
    return (
       <form method='POST'>
-         <div className='flex flex-col w-[25rem] mx-auto gap-y-3 bg-red-400 p-6 shadow-md items-center text-center'>
+         <div className='flex flex-col w-[25rem] mx-auto gap-y-3 bg-gray-500 rounded-md p-6 shadow-md items-center text-center'>
             <input type='text' required minLength={2} name='name' placeholder='name' className='flex-grow p-1' />
             <input
                type='text'
@@ -37,7 +37,10 @@ export default function Add() {
                className='flex-grow p-1'
             />
             <input type='text' required minLength={11} name='email' placeholder='email' className='flex-grow p-1' />
-            <button type='submit' className='bg-green-400 shadow-md p-3 text-yellow-600 w-16 text-center'>
+            <button
+               type='submit'
+               className='bg-blue-400 shadow-md p-3 text-gray-900 w-16 text-center hover:bg-green-600 rounded-lg hover:text-indigo-700'
+            >
                Add
             </button>
             {error ? <p className='text-yellow-200'>Email already taken</p> : null}

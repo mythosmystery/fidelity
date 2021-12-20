@@ -8,10 +8,12 @@ interface HeaderProps {}
 export const Header: React.FC<HeaderProps> = () => {
    const { isSignedIn } = useAuth();
    return (
-      <header className='sticky top-0 left-0 w-full flex h-12 bg-gray-600 justify-end gap-x-3'>
+      <header className='sticky top-0 left-0 w-full bg-gray-900 flex h-10 border-b border-gray-700/50 shadow-md justify-end gap-x-3'>
          <NavLink to='/'>Home</NavLink>
          {isSignedIn ? (
             <>
+               <NavLink to='/customers/list'>Customers</NavLink>
+               <NavLink to='/customers/add'>Add Customer</NavLink>
                <NavLink to='/profile'>Profile</NavLink>
                <GLogout />
             </>

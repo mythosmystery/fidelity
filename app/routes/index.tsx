@@ -1,7 +1,8 @@
 import { User } from '.prisma/client';
 import { LoaderFunction } from 'remix';
 import { useLoaderData } from 'remix';
-import { UserCard } from '../components/UserCard';
+import { UserCard } from '../components/cards/UserCard';
+import { Heading } from '../components/view/Heading';
 import { db } from '../utils/db.server';
 
 export const loader: LoaderFunction = async ({}) => {
@@ -15,7 +16,7 @@ export default function Index() {
 
    return (
       <main>
-         <h1 className='text-green-600 text-6xl'> Index page</h1>
+         <Heading>Home Page</Heading>
          <div className='flex flex-col'>
             {users.map((user: User) => {
                return <UserCard user={user} key={user.id} />;

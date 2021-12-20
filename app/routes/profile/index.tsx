@@ -1,7 +1,8 @@
 import { Customer, User } from '@prisma/client';
 import { LoaderFunction, useLoaderData } from 'remix';
-import { CustomerCard } from '../../components/CustomerCard';
-import { UserCard } from '../../components/UserCard';
+import { CustomerCard } from '../../components/cards/CustomerCard';
+import { UserCard } from '../../components/cards/UserCard';
+import { Heading } from '../../components/view/Heading';
 import { getCurrentUser } from '../../utils/session.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
@@ -12,7 +13,7 @@ export default function ProfilePage() {
    const data = useLoaderData<User & { customers: Customer[] }>();
    return (
       <div>
-         <h1>hello, {data.name}</h1>
+         <Heading>Hello, {data.name}</Heading>
          <UserCard user={data} />
          <div className='flex'>
             {data.customers.map(customer => {
