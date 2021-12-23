@@ -11,19 +11,51 @@ datasource db {
 }
 
 model Customer {
-  id          String @id @default(cuid())
-  name        String
-  phoneNumber String
-  email       String @unique
-  enteredBy   User   @relation(fields: [userId], references: [id])
-  userId      String
+  id           String        @id @default(cuid())
+  name         String
+  phoneNumber  String
+  email        String        @unique
+  enteredBy    User          @relation(fields: [userId], references: [id])
+  userId       String
+  repairOrders RepairOrder[]
 }
 
 model User {
-  id        String     @id @default(cuid())
+  id        String        @id @default(cuid())
   name      String
-  email     String     @unique
+  email     String        @unique
   sub       String
   picture   String
   customers Customer[]
+  repairs   RepairOrder[] @relation("tech")
+  intakes   RepairOrder[] @relation("intake")
+}
+
+model RepairOrder {
+  id          String    @id @default(cuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  neededBy    DateTime?
+  active      Boolean   @default(true)
+  status      String    @default("Awaiting Estimate")
+  description String
+  accessories String[]
+  location    String?
+  tech        User?     @relation("tech", fields: [techId], references: [id])
+  techId      String?
+  customer    Customer  @relation(fields: [customerId], references: [id])
+  customerId  String
+  intakeBy    User      @relation("intake", fields: [userId], references: [id])
+  userId      String
+  product     Product   @relation(fields: [productId], references: [id])
+  productId   String
+}
+
+model Product {
+  id           String        @id @default(cuid())
+  make         String
+  model        String        @unique
+  type         String
+  value        String?
+  repairOrders RepairOrder[]
 }
