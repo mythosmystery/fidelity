@@ -1,15 +1,47 @@
 import { LoaderFunction, Outlet, useLoaderData } from 'remix';
+import { RepairSidebar } from '../components/sidebar/RepairSidebar';
 import { db } from '../utils/db.server';
+import { requireUserId } from '../utils/session.server';
 
-export const loader: LoaderFunction = async () => {
-   return await db.repairOrder.findMany({ include: { product: true, customer: true, intakeBy: true } });
+export const loader: LoaderFunction = async ({ request }) => {
+   const userId = await requireUserId(request);
+   const data = await db.repairOrder.findMany({
+      where: {
+         OR: [
+            {
+               userId
+            },
+            {
+               techId: userId
+            }
+         ]
+      },
+      select: {
+         id: true,
+         product: {
+            select: {
+               make: true,
+               model: true
+            }
+         }
+      }
+   });
+   return data;
 };
 
 export default function Repairs() {
-   const data = useLoaderData();
+   const data = useLoaderData<
+      {
+         id: string;
+         product: {
+            make: string;
+            model: string;
+         };
+      }[]
+   >();
    return (
-      <div className='my-4'>
-         <pre className='text-white'>{JSON.stringify(data, null, 2)}</pre>
+      <div className='flex'>
+         <RepairSidebar data={data} />
          <Outlet />
       </div>
    );

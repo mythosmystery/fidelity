@@ -6,7 +6,7 @@ interface SidebarProps {
    customers: Array<Customer & { enteredBy: User }>;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({ customers }) => {
+export const CustomerSidebar: React.FC<SidebarProps> = ({ customers }) => {
    return (
       <div className='border-r h-screen border-gray-600/50'>
          {customers.map(cust => {

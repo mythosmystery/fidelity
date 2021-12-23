@@ -1,7 +1,7 @@
 import { Customer, User } from '.prisma/client';
 import { LoaderFunction, Outlet } from 'remix';
 import { useLoaderData } from 'remix';
-import { Sidebar } from '../components/sidebar/Sidebar';
+import { CustomerSidebar } from '../components/sidebar/CustomerSidebar';
 import { db } from '../utils/db.server';
 
 export const loader: LoaderFunction = async ({}) => {
@@ -15,7 +15,7 @@ export default function Index() {
 
    return (
       <main className='flex'>
-         <Sidebar customers={data} />
+         <CustomerSidebar customers={data} />
          <div className='px-8 py-4'>
             <Outlet />
          </div>

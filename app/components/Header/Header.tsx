@@ -13,7 +13,8 @@ export const Header: React.FC<HeaderProps> = () => {
          {isSignedIn ? (
             <>
                <NavLink to='/customers/list'>Customers</NavLink>
-               <NavLink to='/customers/add'>Add Customer</NavLink>
+               <NavLink to='/repairs/list'>Repairs</NavLink>
+               <NavLink to='/repairs/add'>New Repair</NavLink>
                <NavLink to='/profile'>Profile</NavLink>
                <GLogout />
             </>
