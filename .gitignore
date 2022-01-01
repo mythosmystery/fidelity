@@ -8,6 +8,7 @@ node_modules
 .env
 firebase/
 google/
+package-lock.json
 
 #amplify-do-not-edit-begin
 amplify/\#current-cloud-backend
