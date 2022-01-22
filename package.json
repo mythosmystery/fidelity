@@ -9,6 +9,7 @@
     "dev": "concurrently \"npm run dev:css\" \"remix dev\"",
     "dev:css": "tailwindcss -o ./app/tailwind.css --watch",
     "start": "remix-serve build",
+    "postinstall": "remix setup",
     "gen": "graphql-codegen --config codegen.yml",
     "fauna-upload": "curl -u fnAEZwPsvEAAQtSFvnhaS6Ca16gN1lpDlqRR9ELe: https://graphql.us.fauna.com/import --data-binary \"@./faunadb/schema.graphql\""
   },
