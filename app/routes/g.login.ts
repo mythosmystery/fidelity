@@ -20,7 +20,8 @@ const googleAuth = async (token: string): Promise<string | null> => {
 
    if (payload) {
       user = await db.user.findFirst({ where: { email: payload.email } });
-
+      console.log(user);
+      
       if (!user) {
          console.log('creating user');
          user = await db.user.create({
