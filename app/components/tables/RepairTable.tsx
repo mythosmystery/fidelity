@@ -1,26 +1,19 @@
 import React from 'react';
-import { Link } from 'remix';
-import { RepairType } from '../../routes/repairs/list';
 
-interface RepairTableProps {
-   repair: RepairType;
-}
-
-export const RepairTable: React.FC<RepairTableProps> = ({ repair }) => {
+export const RepairTable: React.FC = ({ children }) => {
    return (
-      <tr className='border-b border-t border-gray-600/50'>
-         <td className='p-2'>{repair.status}</td>
-         <td className='p-2'>
-            <Link to={`/users/${repair.intakeBy.id}`}>{repair.intakeBy.name}</Link>
-         </td>
-         <td className='p-2'>{repair.product.make}</td>
-         <td className='p-2'>{repair.product.model}</td>
-         <td className='p-2'>{repair.product.type}</td>
-         <td className='p-2'>{repair.location || 'N/A'}</td>
-         <td className='p-2'>
-            <Link to={`/customers/${repair.customerId}`}>{repair.customer.name}</Link>
-         </td>
-         <td className='p-2'>{repair.customer.phoneNumber}</td>
-      </tr>
+      <table className='w-full text-center text-gray-300'>
+         <tr>
+            <th>Status</th>
+            <th>Intake By</th>
+            <th>Product Make</th>
+            <th>Product Model</th>
+            <th>Product Type</th>
+            <th>Location</th>
+            <th>Customer Name</th>
+            <th>Customer Number</th>
+         </tr>
+         {children}
+      </table>
    );
 };

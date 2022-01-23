@@ -3,8 +3,10 @@ import { LoaderFunction, Outlet } from 'remix';
 import { useLoaderData } from 'remix';
 import { CustomerSidebar } from '../components/sidebar/CustomerSidebar';
 import { db } from '../utils/db.server';
+import { requireAuth } from '../utils/session.server';
 
-export const loader: LoaderFunction = async ({}) => {
+export const loader: LoaderFunction = async ({ request }) => {
+   await requireAuth(request);
    const data = await db.customer.findMany({ include: { enteredBy: true } });
    return data;
 };

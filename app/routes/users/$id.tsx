@@ -4,8 +4,10 @@ import { useLoaderData } from 'remix';
 import { CustomerCard } from '../../components/cards/CustomerCard';
 import { UserCard } from '../../components/cards/UserCard';
 import { db } from '../../utils/db.server';
+import { requireAuth } from '../../utils/session.server';
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = async ({ params, request }) => {
+   await requireAuth(request);
    return db.user.findUnique({ where: { id: params.id }, include: { customers: true } });
 };
 

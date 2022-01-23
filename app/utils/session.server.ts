@@ -67,3 +67,7 @@ export const logout = async (request: Request) => {
       }
    });
 };
+
+export const requireAuth = async (request: Request) => {
+   await requireUserId(request);
+};
