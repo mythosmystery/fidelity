@@ -24,7 +24,7 @@ export default function CustomerPage() {
       <>
          <Heading>Customer Details</Heading>
 
-         <div className='flex'>
+         <div className='flex justify-evenly'>
             <CustomerCard customer={data} userName={data.enteredBy.name} />
          </div>
          {data.repairOrders.length ? (

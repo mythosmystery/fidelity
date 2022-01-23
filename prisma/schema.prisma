@@ -18,6 +18,7 @@ model Customer {
   enteredBy    User          @relation(fields: [userId], references: [id])
   userId       String
   repairOrders RepairOrder[]
+  Invoice      Invoice[]
 }
 
 model User {
@@ -29,26 +30,28 @@ model User {
   customers Customer[]
   repairs   RepairOrder[] @relation("tech")
   intakes   RepairOrder[] @relation("intake")
+  invoices  Invoice[]
 }
 
 model RepairOrder {
-  id          String    @id @default(cuid())
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id          String     @id @default(cuid())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
   neededBy    DateTime?
-  active      Boolean   @default(true)
-  status      String    @default("Awaiting Estimate")
+  active      Boolean    @default(true)
+  status      String     @default("Awaiting Estimate")
   description String
   accessories String[]
   location    String?
-  tech        User?     @relation("tech", fields: [techId], references: [id])
+  tech        User?      @relation("tech", fields: [techId], references: [id])
   techId      String?
-  customer    Customer  @relation(fields: [customerId], references: [id])
+  customer    Customer   @relation(fields: [customerId], references: [id])
   customerId  String
-  intakeBy    User      @relation("intake", fields: [userId], references: [id])
+  intakeBy    User       @relation("intake", fields: [userId], references: [id])
   userId      String
-  product     Product   @relation(fields: [productId], references: [id])
+  product     Product    @relation(fields: [productId], references: [id])
   productId   String
+  Estimate    Estimate[]
 }
 
 model Product {
@@ -61,9 +64,37 @@ model Product {
 }
 
 model Estimate {
+  id            String      @id @default(cuid())
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  description   String
+  price         String
+  parts         Part[]
+  invoice       Invoice?    @relation(fields: [invoiceId], references: [id])
+  invoiceId     String?
+  repairOrder   RepairOrder @relation(fields: [repairOrderId], references: [id])
+  repairOrderId String
+}
+
+model Part {
   id          String   @id @default(cuid())
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  partNumber  String
   description String
   price       String
+  status      String   @default("Ordered")
+  estimate    Estimate @relation(fields: [estimateId], references: [id])
+  estimateId  String
+}
+
+model Invoice {
+  id         String     @id @default(cuid())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  customer   Customer   @relation(fields: [customerId], references: [id])
+  preparedBy User       @relation(fields: [userId], references: [id])
+  customerId String
+  userId     String
+  estimates  Estimate[]
 }

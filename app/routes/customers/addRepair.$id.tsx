@@ -44,8 +44,7 @@ export default function addRepair() {
    return (
       <form method='POST'>
          <div className='flex flex-col w-[25rem] mx-auto gap-y-3 bg-gray-500 rounded-md p-6 shadow-md items-center text-center'>
-            <input
-               type='text'
+            <textarea
                required
                minLength={2}
                name='description'
