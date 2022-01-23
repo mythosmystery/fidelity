@@ -1,6 +1,6 @@
 import { Customer, User } from '.prisma/client';
 import { LoaderFunction } from '@remix-run/server-runtime';
-import { useLoaderData } from 'remix';
+import { Link, useLoaderData } from 'remix';
 import { CustomerCard } from '../../components/cards/CustomerCard';
 import { RepairTable } from '../../components/tables/RepairTable';
 import { RepairTableItem } from '../../components/tables/RepairTableItem';
@@ -27,13 +27,25 @@ export default function CustomerPage() {
          <div className='flex'>
             <CustomerCard customer={data} userName={data.enteredBy.name} />
          </div>
-         <div className='w-full'>
-            <RepairTable>
-               {data.repairOrders?.map(repair => {
-                  return <RepairTableItem repair={repair} key={repair.id} />;
-               })}
-            </RepairTable>
-         </div>
+         {data.repairOrders.length ? (
+            <div className='w-full text-center'>
+               <RepairTable>
+                  {data.repairOrders?.map(repair => {
+                     return <RepairTableItem repair={repair} key={repair.id} />;
+                  })}
+               </RepairTable>
+               <Link
+                  className='text-xl text-blue-400 hover:text-yellow-300 my-4'
+                  to={`/customers/addRepair/${data.id}`}
+               >
+                  Add Repair
+               </Link>
+            </div>
+         ) : (
+            <Link className='text-xl text-blue-400 hover:text-yellow-300' to={`/customers/addRepair/${data.id}`}>
+               Add New Repair Order
+            </Link>
+         )}
       </>
    );
 }

@@ -1,4 +1,4 @@
-import { Link, LoaderFunction, useLoaderData } from 'remix';
+import { ActionFunction, Link, LoaderFunction, redirect, useLoaderData } from 'remix';
 import { db } from '../../utils/db.server';
 import { RepairType } from './list';
 
@@ -16,11 +16,24 @@ export const loader: LoaderFunction = async ({ params }) => {
    });
 };
 
+export const action: ActionFunction = async ({ params }) => {
+   await db.repairOrder.delete({ where: { id: params.id } });
+
+   return redirect('/repairs/list');
+};
+
 export default function Repair() {
    const data = useLoaderData<RepairType>();
    return (
       <div className='flex flex-col text-white  w-full'>
-         <div className='bg-red-400 p-3'>{data.status}</div>
+         <div className='bg-red-400 p-3 flex justify-around'>
+            {data.status}
+            <form method='POST'>
+               <button type='submit' className='text-gray-200 hover:text-yellow-400'>
+                  Delete
+               </button>
+            </form>
+         </div>
          <div className='flex flex-col my-4'>
             <h1 className='ml-4 text-2xl'>
                {data.product.make} {data.product.model}
