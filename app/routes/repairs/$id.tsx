@@ -1,6 +1,6 @@
 import { ActionFunction, Link, LoaderFunction, redirect, useLoaderData } from 'remix';
 import { db } from '../../utils/db.server';
-import { RepairType } from './list';
+import { RepairType } from '../../utils/types/types';
 
 export const loader: LoaderFunction = async ({ params }) => {
    return await db.repairOrder.findUnique({
@@ -11,7 +11,14 @@ export const loader: LoaderFunction = async ({ params }) => {
          customer: true,
          intakeBy: true,
          product: true,
-         tech: true
+         tech: true,
+         estimates: {
+            include: {
+               invoice: true,
+               preparedBy: true,
+               parts: true
+            }
+         }
       }
    });
 };
@@ -53,7 +60,7 @@ export default function Repair() {
          <Link to={`/users/${data.userId}`} className='text-lg px-8 hover:text-purple-500'>
             {data.intakeBy.name}
          </Link>
-         {/* <pre className='text-white'>{JSON.stringify(data, null, 3)}</pre> */}
+         <pre className='text-white'>{JSON.stringify(data, null, 3)}</pre>
       </div>
    );
 }

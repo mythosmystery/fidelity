@@ -6,7 +6,7 @@ import { RepairTable } from '../../components/tables/RepairTable';
 import { RepairTableItem } from '../../components/tables/RepairTableItem';
 import { Heading } from '../../components/view/Heading';
 import { db } from '../../utils/db.server';
-import { RepairType } from '../repairs/list';
+import { RepairType } from '../../utils/types/types';
 
 export const loader: LoaderFunction = async ({ params }) => {
    return await db.customer.findUnique({

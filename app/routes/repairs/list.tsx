@@ -1,15 +1,8 @@
-import { RepairOrder, Customer, User, Product } from '@prisma/client';
 import { LoaderFunction, useLoaderData } from 'remix';
 import { RepairTable } from '../../components/tables/RepairTable';
 import { RepairTableItem } from '../../components/tables/RepairTableItem';
 import { db } from '../../utils/db.server';
-
-export type RepairType = RepairOrder & {
-   customer: Customer;
-   intakeBy: User;
-   product: Product;
-   tech: User | null;
-};
+import { RepairType } from '../../utils/types/types';
 
 export const loader: LoaderFunction = async ({}) => {
    const data = await db.repairOrder.findMany({

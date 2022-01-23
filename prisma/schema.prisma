@@ -31,6 +31,7 @@ model User {
   repairs   RepairOrder[] @relation("tech")
   intakes   RepairOrder[] @relation("intake")
   invoices  Invoice[]
+  estimates Estimate[]
 }
 
 model RepairOrder {
@@ -51,7 +52,7 @@ model RepairOrder {
   userId      String
   product     Product    @relation(fields: [productId], references: [id])
   productId   String
-  Estimate    Estimate[]
+  estimates   Estimate[]
 }
 
 model Product {
@@ -74,6 +75,8 @@ model Estimate {
   invoiceId     String?
   repairOrder   RepairOrder @relation(fields: [repairOrderId], references: [id])
   repairOrderId String
+  preparedBy    User        @relation(fields: [userId], references: [id])
+  userId        String
 }
 
 model Part {

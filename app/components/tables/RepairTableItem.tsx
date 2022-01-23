@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'remix';
-import { RepairType } from '../../routes/repairs/list';
+import { RepairType } from '../../utils/types/types';
 
 interface RepairTableProps {
    repair: RepairType;
