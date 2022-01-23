@@ -15,7 +15,7 @@ export default function ProfilePage() {
       <div>
          <Heading>Hello, {data.name}</Heading>
          <UserCard user={data} />
-         <div className='flex'>
+         <div className='flex flex-col lg:flex-row'>
             {data.customers.map(customer => {
                return <CustomerCard customer={customer} userName={data.name} key={customer.id} />;
             })}

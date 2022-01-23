@@ -4,6 +4,7 @@ import { useLoaderData } from 'remix';
 import { CustomerCard } from '../../components/cards/CustomerCard';
 import { RepairTable } from '../../components/tables/RepairTable';
 import { RepairTableItem } from '../../components/tables/RepairTableItem';
+import { Heading } from '../../components/view/Heading';
 import { db } from '../../utils/db.server';
 import { RepairType } from '../repairs/list';
 
@@ -21,6 +22,8 @@ export default function CustomerPage() {
    const data = useLoaderData<Customer & { enteredBy: User; repairOrders: RepairType[] }>();
    return (
       <>
+         <Heading>Customer Details</Heading>
+
          <div className='flex'>
             <CustomerCard customer={data} userName={data.enteredBy.name} />
          </div>
