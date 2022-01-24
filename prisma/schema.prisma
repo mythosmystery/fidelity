@@ -70,6 +70,7 @@ model Estimate {
   updatedAt     DateTime    @updatedAt
   description   String
   price         String
+  status        String      @default("Prepared")
   parts         Part[]
   invoice       Invoice?    @relation(fields: [invoiceId], references: [id])
   invoiceId     String?

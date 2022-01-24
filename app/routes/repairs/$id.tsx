@@ -1,4 +1,4 @@
-import { ActionFunction, Link, LoaderFunction, redirect, useLoaderData } from 'remix';
+import { ActionFunction, Link, LoaderFunction, Outlet, redirect, useLoaderData } from 'remix';
 import { db } from '../../utils/db.server';
 import { RepairType } from '../../utils/types/types';
 
@@ -59,10 +59,25 @@ export default function Repair() {
          <Link to={`/users/${data.userId}`} className='text-lg px-8 hover:text-purple-500'>
             {data.intakeBy.name}
          </Link>
-         <Link className='text-lg text-blue-500' to={`/estimates/${data.id}`}>
+         <Outlet />
+         {data.estimates?.map(estimate => {
+            return (
+               <>
+                  <h1 className='text-lg mt-4 ml-4'>Estimate</h1>
+                  <div className='px-4 mx-3 mb-4 mt-2'>
+                     <p>Status: {estimate.status}</p>
+                     <p className='my-2'>Work needed: {estimate.description}</p>
+                     <p>Price: {estimate.price}</p>
+                     <p>Prepared on {new Date(estimate.createdAt).toLocaleString()}</p>
+                  </div>
+               </>
+            );
+         })}
+         <Link className='text-lg text-blue-500 m-6' to={`/repairs/${data.id}/estimate/add`}>
             Add Estimate
          </Link>
-         <pre className='text-white'>{JSON.stringify(data.esimates, null, 3)}</pre>
+
+         {/* <pre className='text-white'>{JSON.stringify(data, null, 3)}</pre> */}
       </div>
    );
 }

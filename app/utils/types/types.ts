@@ -5,7 +5,7 @@ export type RepairType = RepairOrder & {
    intakeBy: User;
    product: Product;
    tech: User | null;
-   esimates: EstimateType[];
+   estimates: EstimateType[];
 };
 
 export type EstimateType = Estimate & {
