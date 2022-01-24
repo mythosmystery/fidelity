@@ -14,9 +14,11 @@ interface RepairSidebarProps {
 export const RepairSidebar: React.FC<RepairSidebarProps> = ({ data }) => {
    return (
       <div className='border-r border-gray-600/50 flex flex-col'>
-         <div className='border-b py-2.5 px-3 text-lg text-gray-400 border-gray-600/50 hover:bg-gray-500 hover:text-gray-800'>
-            <Link to='/repairs/add'>New Repair</Link>
-         </div>
+         <Link to='/repairs/add'>
+            <div className='border-b py-2.5 px-3 text-lg text-gray-400 border-gray-600/50 hover:bg-gray-500 hover:text-gray-800'>
+               New Repair
+            </div>
+         </Link>
          {data.map(({ id, product }) => {
             return (
                <Link to={`/repairs/${id}`} key={id}>

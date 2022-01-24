@@ -25,7 +25,6 @@ export const loader: LoaderFunction = async ({ params }) => {
 
 export const action: ActionFunction = async ({ params }) => {
    await db.repairOrder.delete({ where: { id: params.id } });
-
    return redirect('/repairs/list');
 };
 
@@ -60,7 +59,10 @@ export default function Repair() {
          <Link to={`/users/${data.userId}`} className='text-lg px-8 hover:text-purple-500'>
             {data.intakeBy.name}
          </Link>
-         <pre className='text-white'>{JSON.stringify(data, null, 3)}</pre>
+         <Link className='text-lg text-blue-500' to={`/estimates/${data.id}`}>
+            Add Estimate
+         </Link>
+         <pre className='text-white'>{JSON.stringify(data.esimates, null, 3)}</pre>
       </div>
    );
 }

@@ -1,6 +1,6 @@
 import { ActionFunction, redirect, useActionData } from 'remix';
-import { db } from '../../utils/db.server';
-import { requireUserId } from '../../utils/session.server';
+import { db } from '../../../utils/db.server';
+import { requireUserId } from '../../../utils/session.server';
 
 export const action: ActionFunction = async ({ request, params }) => {
    const formData = await request.formData();
