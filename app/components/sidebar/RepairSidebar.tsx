@@ -21,7 +21,7 @@ export const RepairSidebar: React.FC<RepairSidebarProps> = ({ data }) => {
          </Link>
          {data.map(({ id, product }) => {
             return (
-               <Link to={`/repairs/${id}`} key={id}>
+               <Link to={`/repairs/${id}`} key={id} replace>
                   <div className='border-b py-2.5 px-3 text-lg text-gray-400 border-gray-600/50 hover:bg-gray-500 hover:text-gray-800'>
                      {product.make} {product.model}
                   </div>
