@@ -78,9 +78,7 @@ export default function Repair() {
             </Link>
             {/* <p>{JSON.stringify(data.estimates, null, 2)}</p> */}
             {data.estimates?.map((e, i) => {
-               return data.id === e.repairOrderId ? (
-                  <EstimateCard estimate={e} index={i} id={data.id} key={data.id} />
-               ) : null;
+               return data.id === e.repairOrderId ? <EstimateCard estimate={e} index={i} id={data.id} key={i} /> : null;
             })}
             <Outlet />
             <Link className='text-lg text-blue-500 m-6' to={`/repairs/${data.id}/estimate/add`}>
