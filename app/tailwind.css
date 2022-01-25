@@ -849,6 +849,10 @@ video {
   background-color: rgba(96, 165, 250, var(--tw-bg-opacity));
 }
 
+.bg-transparent {
+  background-color: transparent;
+}
+
 .p-4 {
   padding: 1rem;
 }
@@ -976,6 +980,11 @@ video {
 .text-black {
   --tw-text-opacity: 1;
   color: rgba(0, 0, 0, var(--tw-text-opacity));
+}
+
+.text-red-500 {
+  --tw-text-opacity: 1;
+  color: rgba(239, 68, 68, var(--tw-text-opacity));
 }
 
 .shadow-md {

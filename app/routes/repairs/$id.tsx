@@ -1,4 +1,4 @@
-import { ActionFunction, Link, LoaderFunction, Outlet, redirect, useLoaderData } from 'remix';
+import { ActionFunction, Link, LoaderFunction, Outlet, useLoaderData, useNavigate } from 'remix';
 import { db } from '../../utils/db.server';
 import { RepairType } from '../../utils/types/types';
 
@@ -24,21 +24,28 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 export const action: ActionFunction = async ({ params }) => {
-   await db.repairOrder.delete({ where: { id: params.id } });
-   return redirect('/repairs/list');
+   console.log(params.id);
+   console.log('hi');
+   return null;
 };
 
 export default function Repair() {
    const data = useLoaderData<RepairType>();
+   const navigate = useNavigate();
    return (
       <div className='flex flex-col text-white  w-full'>
          <div className='bg-red-400 p-3 flex justify-around'>
             {data.status}
-            <form method='POST'>
-               <button type='submit' className='text-gray-200 hover:text-yellow-400'>
-                  Delete
-               </button>
-            </form>
+            <button
+               className='text-gray-200 hover:text-yellow-400'
+               onClick={() => {
+                  fetch(`/repairs/${data.id}/delete`, { method: 'POST' }).then(() =>
+                     window.location.assign('/repairs/list')
+                  );
+               }}
+            >
+               Delete
+            </button>
          </div>
          <div className='flex flex-col my-4'>
             <h1 className='ml-4 text-2xl'>
@@ -60,16 +67,34 @@ export default function Repair() {
             {data.intakeBy.name}
          </Link>
          <Outlet />
-         {data.estimates?.map(estimate => {
+         {data.estimates?.map((estimate, i) => {
             return (
                <>
-                  <h1 className='text-lg mt-4 ml-4'>Estimate</h1>
-                  <div className='px-4 mx-3 mb-4 mt-2'>
-                     <p>Status: {estimate.status}</p>
-                     <p className='my-2'>Work needed: {estimate.description}</p>
-                     <p>Price: {estimate.price}</p>
-                     <p>Prepared on {new Date(estimate.createdAt).toLocaleString()}</p>
+                  <div className='flex justify-around w-1/4'>
+                     <h1 className='text-lg mt-4 ml-4'>Estimate {i + 1}</h1>
+                     <button
+                        className='text-red-500 hover:text-yellow-400'
+                        onClick={() => {
+                           fetch(`/repairs/${data.id}/${estimate.id}/delete`, { method: 'POST' }).then(() =>
+                              navigate(`/repairs/${data.id}`, { replace: true })
+                           );
+                        }}
+                     >
+                        Delete
+                     </button>
                   </div>
+                  <form className='px-4 mx-3 mb-4 mt-2 flex flex-col' method='POST'>
+                     <p>Status: {estimate.status}</p>
+                     <input
+                        className='bg-transparent my-2'
+                        name='description'
+                        type='text'
+                        defaultValue={estimate.description}
+                     />
+                     <input className='bg-transparent my-2' name='price' type='text' defaultValue={estimate.price} />
+                     <p>Prepared on {new Date(estimate.createdAt).toLocaleString()}</p>
+                     <button type='submit' />
+                  </form>
                </>
             );
          })}
