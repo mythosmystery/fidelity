@@ -18,7 +18,7 @@ model Customer {
   enteredBy    User          @relation(fields: [userId], references: [id])
   userId       String
   repairOrders RepairOrder[]
-  Invoice      Invoice[]
+  invoice      Invoice[]
 }
 
 model User {

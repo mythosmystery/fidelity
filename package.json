@@ -1,51 +1,51 @@
 {
-  "private": true,
-  "name": "remix-app-template",
-  "description": "",
-  "license": "",
-  "scripts": {
-    "build": "npm run build:css && remix build",
-    "build:css": "tailwindcss -o ./app/tailwind.css",
-    "dev": "concurrently \"npm run dev:css\" \"remix dev\"",
-    "dev:css": "tailwindcss -o ./app/tailwind.css --watch",
-    "start": "remix-serve build",
-    "postinstall": "remix setup",
-    "gen": "graphql-codegen --config codegen.yml",
-    "fauna-upload": "curl -u fnAEZwPsvEAAQtSFvnhaS6Ca16gN1lpDlqRR9ELe: https://graphql.us.fauna.com/import --data-binary \"@./faunadb/schema.graphql\""
-  },
-  "prisma": {
-    "seed": "node --require esbuild-register prisma/seed.ts"
-  },
-  "dependencies": {
-    "@prisma/client": "^3.6.0",
-    "@remix-run/react": "^1.0.6",
-    "@remix-run/serve": "^1.0.6",
-    "dotenv": "^10.0.0",
-    "google-auth-library": "^7.10.3",
-    "graphql": "^16.0.1",
-    "graphql-request": "^3.7.0",
-    "graphql-tag": "^2.12.6",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-google-login": "^5.2.2",
-    "remix": "^1.0.6"
-  },
-  "devDependencies": {
-    "@graphql-codegen/cli": "2.3.0",
-    "@graphql-codegen/typescript": "2.4.1",
-    "@graphql-codegen/typescript-graphql-request": "^4.3.2",
-    "@graphql-codegen/typescript-operations": "2.2.1",
-    "@remix-run/dev": "^1.0.6",
-    "@types/react": "^17.0.24",
-    "@types/react-dom": "^17.0.9",
-    "concurrently": "^6.4.0",
-    "esbuild-register": "^3.2.0",
-    "prisma": "^3.6.0",
-    "tailwindcss": "^2.2.19",
-    "typescript": "^4.1.2"
-  },
-  "engines": {
-    "node": ">=14"
-  },
-  "sideEffects": false
+   "private": true,
+   "name": "remix-app-template",
+   "description": "",
+   "license": "",
+   "scripts": {
+      "build": "npm run build:css && remix build",
+      "build:css": "tailwindcss -o ./app/tailwind.css",
+      "dev": "concurrently \"npm run dev:css\" \"remix dev\"",
+      "dev:css": "tailwindcss -o ./app/tailwind.css --watch",
+      "start": "remix-serve build",
+      "postinstall": "remix setup",
+      "gen": "graphql-codegen --config codegen.yml",
+      "fauna-upload": "curl -u fnAEZwPsvEAAQtSFvnhaS6Ca16gN1lpDlqRR9ELe: https://graphql.us.fauna.com/import --data-binary \"@./faunadb/schema.graphql\""
+   },
+   "prisma": {
+      "seed": "node --require esbuild-register prisma/seed.ts"
+   },
+   "dependencies": {
+      "@prisma/client": "^3.6.0",
+      "@remix-run/react": "^1.0.6",
+      "@remix-run/serve": "^1.0.6",
+      "dotenv": "^10.0.0",
+      "google-auth-library": "^7.10.3",
+      "graphql": "^16.0.1",
+      "graphql-request": "^3.7.0",
+      "graphql-tag": "^2.12.6",
+      "react": "^17.0.2",
+      "react-dom": "^17.0.2",
+      "react-google-login": "^5.2.2",
+      "remix": "^1.0.6"
+   },
+   "devDependencies": {
+      "@graphql-codegen/cli": "2.3.0",
+      "@graphql-codegen/typescript": "2.4.1",
+      "@graphql-codegen/typescript-graphql-request": "^4.3.2",
+      "@graphql-codegen/typescript-operations": "2.2.1",
+      "@remix-run/dev": "^1.0.6",
+      "@types/react": "^17.0.24",
+      "@types/react-dom": "^17.0.9",
+      "concurrently": "^6.4.0",
+      "esbuild-register": "^3.2.0",
+      "prisma": "^3.6.0",
+      "tailwindcss": "^2.2.19",
+      "typescript": "^4.1.2"
+   },
+   "engines": {
+      "node": ">=14"
+   },
+   "sideEffects": false
 }

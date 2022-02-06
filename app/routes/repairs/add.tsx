@@ -1,4 +1,6 @@
 import { ActionFunction, useActionData } from 'remix';
+import { Field } from '../../components/view/Field';
+import { LargeField } from '../../components/view/LargeField';
 import { db } from '../../utils/db.server';
 import { requireUserId } from '../../utils/session.server';
 
@@ -59,27 +61,14 @@ export default function add() {
    const error = useActionData();
    return (
       <form method='POST'>
-         <div className='flex flex-col w-[25rem] mx-auto gap-y-3 bg-gray-500 rounded-md p-6 shadow-md items-center text-center'>
-            <textarea
-               required
-               minLength={2}
-               name='description'
-               placeholder='problem description'
-               className='flex-grow p-1'
-            />
-            <input type='text' required minLength={2} name='name' placeholder='name' className='flex-grow p-1' />
-            <input
-               type='text'
-               required
-               minLength={10}
-               name='phoneNumber'
-               placeholder='phone number'
-               className='flex-grow p-1'
-            />
-            <input type='text' required minLength={11} name='email' placeholder='email' className='flex-grow p-1' />
-            <input type='text' required minLength={1} name='make' placeholder='make' className='flex-grow p-1' />
-            <input type='text' required minLength={1} name='model' placeholder='model' className='flex-grow p-1' />
-            <input type='text' required minLength={1} name='type' placeholder='type' className='flex-grow p-1' />
+         <div className='flex flex-col w-[25rem] mx-auto gap-y-3 p-6 items-center text-center text-white'>
+            <LargeField required minLength={2} name='description' placeholder='problem description' />
+            <Field type='text' required minLength={2} name='name' placeholder='name' />
+            <Field type='text' required minLength={10} name='phoneNumber' placeholder='phone number' />
+            <Field type='text' required minLength={11} name='email' placeholder='email' />
+            <Field type='text' required minLength={1} name='make' placeholder='make' />
+            <Field type='text' required minLength={1} name='model' placeholder='model' />
+            <Field type='text' required minLength={1} name='type' placeholder='type' />
             <button
                type='submit'
                className='bg-blue-400 shadow-md p-3 text-gray-900 w-16 text-center hover:bg-green-600 rounded-lg hover:text-indigo-700'
