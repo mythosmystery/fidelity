@@ -1,6 +1,9 @@
-import { ActionFunction, Link, LoaderFunction, Outlet, useLoaderData } from 'remix';
+import { ActionFunction, Form, Link, LoaderFunction, Outlet, useLoaderData, useSubmit } from 'remix';
 import { CustomerCard } from '../../components/cards/CustomerCard';
 import { EstimateCard } from '../../components/cards/EstimateCard';
+import { Dropdown } from '../../components/utils/Dropdown';
+import { EditField } from '../../components/view/EditField';
+import { STATUSES } from '../../utils/constants';
 import { db } from '../../utils/db.server';
 import { RepairType } from '../../utils/types/types';
 
@@ -29,28 +32,54 @@ export const loader: LoaderFunction = async ({ params }) => {
    });
 };
 
-export const action: ActionFunction = async ({ request }) => {
+export const action: ActionFunction = async ({ request, params }) => {
    const formData = await request.formData();
+
+   const problemDescription = formData.get('problemDescription') as string | null;
+   const repairStatus = formData.get('repairStatus') as string | null;
+
+   const estStatus = formData.get('estimateStatus') as string;
    const description = formData.get('description') as string;
    const price = formData.get('price') as string;
    const id = formData.get('id') as string;
-   await db.estimate.update({
-      where: { id },
-      data: {
-         description,
-         price
-      }
-   });
+   if (problemDescription || repairStatus) {
+      await db.repairOrder.update({
+         where: {
+            id: params.id
+         },
+         data: {
+            description: problemDescription ?? undefined,
+            status: repairStatus ?? undefined
+         }
+      });
+   } else {
+      await db.estimate.update({
+         where: { id },
+         data: {
+            description,
+            price,
+            status: estStatus
+         }
+      });
+   }
 
    return null;
 };
 
 export default function Repair() {
    const data = useLoaderData<RepairType>();
+   const submit = useSubmit();
    return (
       <div className='flex flex-col text-white w-full'>
          <div className='bg-red-400 p-3 flex justify-around'>
-            {data.status}
+            <Form
+               method='post'
+               onChange={e => {
+                  submit(e.currentTarget, { replace: true });
+               }}
+            >
+               <Dropdown options={STATUSES} name='repairStatus' currentOption={data.status} />
+            </Form>
             <button
                className='text-gray-200 hover:text-yellow-400'
                onClick={() => {
@@ -64,11 +93,14 @@ export default function Repair() {
          </div>
          <div className='w-full md:w-1/2 lg:w-1/3 mx-12'>
             <div className='flex flex-col my-4'>
-               <h1 className='ml-4 text-2xl'>
-                  {data.product.make} {data.product.model}
-               </h1>
-               <p className='ml-12 mt-2 mb-4'>{data.product.type}</p>
-               <p className='my-4 mx-8 w-1/2'>{data.description}</p>
+               <form method='post'>
+                  <h1 className='ml-4 text-2xl'>
+                     {data.product.make} {data.product.model}
+                  </h1>
+                  <p className='ml-12 mt-2 mb-4'>{data.product.type}</p>
+                  <EditField type='text' name='problemDescription' defaultValue={data.description} />
+                  <button type='submit' />
+               </form>
             </div>
             <h1 className='text-xl m-4'>Customer Details</h1>
             <CustomerCard customer={data.customer} userName={data.customer.enteredBy.name} />

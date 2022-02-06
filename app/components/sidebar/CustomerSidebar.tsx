@@ -8,7 +8,7 @@ interface SidebarProps {
 
 export const CustomerSidebar: React.FC<SidebarProps> = ({ customers }) => {
    return (
-      <div className='border-r h-screen border-gray-600/50'>
+      <div className='border-r h-screen border-gray-600/50 capitalize'>
          <Link to={`/customers/add`}>
             <div className='border-b py-2.5 px-3 text-lg text-gray-400 border-gray-600/50 hover:bg-gray-500 hover:text-gray-800'>
                Add Customer
